@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export ENCLAVE_KEY_PATH=YOUR_LOCAL_ENCLAVE_KEY_PATH
-export DATA_PATH=YOUR_LOCAL_DATA_PATH
-export KEYS_PATH=YOUR_LOCAL_KEYS_PATH
-export LOCAL_IP=YOUR_LOCAL_IP
+export ENCLAVE_KEY_PATH=/home/criteo/BigDL/ppml/trusted-big-data-ml/python/docker-graphene/enclave-key.pem
+export DATA_PATH=/home/criteo/BigDL/ppml/trusted-big-data-ml/python/docker-graphene/data
+export KEYS_PATH=/home/criteo/BigDL/ppml/trusted-big-data-ml/python/docker-graphene/keys
+export LOCAL_IP=127.0.0.1
 export DOCKER_IMAGE=intelanalytics/bigdl-ppml-trusted-big-data-ml-python-graphene:0.14.0-SNAPSHOT
 
 sudo docker pull $DOCKER_IMAGE
@@ -22,5 +22,5 @@ sudo docker run -itd \
     -v $KEYS_PATH:/ppml/trusted-big-data-ml/work/keys \
     --name=spark-local \
     -e LOCAL_IP=$LOCAL_IP \
-    -e SGX_MEM_SIZE=64G \
+    -e SGX_MEM_SIZE=16G \
     $DOCKER_IMAGE bash

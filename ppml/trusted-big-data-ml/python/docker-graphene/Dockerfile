@@ -3,7 +3,8 @@ ARG SPARK_VERSION=3.1.2
 ARG TINI_VERSION=v0.18.0
 ARG JDK_VERSION=8u192
 ARG JDK_URL=your_jdk_url
-ARG SPARK_JAR_REPO_URL=your_spark_jar_repo_url
+ARG SPARK_JAR_REPO_URL=https://archive.apache.org/dist/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz
+
 
 # stage.1 graphene
 FROM ubuntu:20.04 AS graphene
@@ -41,11 +42,13 @@ RUN apt-get update --fix-missing && \
     env DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y tzdata apt-utils wget unzip patch zip git maven
 ADD hadoop-common-shell.patch /opt/hadoop-common-shell.patch
 
+COPY jdk-8u192-linux-x64.tar.gz /tmp/
+
 # java
-RUN wget $JDK_URL && \
-    gunzip jdk-$JDK_VERSION-linux-x64.tar.gz && \
-    tar -xf jdk-$JDK_VERSION-linux-x64.tar -C /opt && \
-    rm jdk-$JDK_VERSION-linux-x64.tar && \
+RUN ls /tmp
+RUN gunzip /tmp/jdk-$JDK_VERSION-linux-x64.tar.gz && \
+    tar -xf /tmp/jdk-$JDK_VERSION-linux-x64.tar -C /opt && \
+    rm /tmp/jdk-$JDK_VERSION-linux-x64.tar && \
     mv /opt/jdk* /opt/jdk$JDK_VERSION && \
     ln -s /opt/jdk$JDK_VERSION /opt/jdk
 # scala
@@ -76,7 +79,7 @@ ADD ./log4j2.xml /opt/spark-${SPARK_VERSION}/conf/log4j2.xml
 RUN cd /opt && \
     wget $SPARK_JAR_REPO_URL/spark-core_2.12-$SPARK_VERSION.jar && \
     wget $SPARK_JAR_REPO_URL/spark-kubernetes_2.12-$SPARK_VERSION.jar && \
-    wget $SPARK_JAR_REPO_URL/spark-network-common_2.12-$SPARK_VERSION.jar && \
+   wget $SPARK_JAR_REPO_URL/spark-network-common_2.12-$SPARK_VERSION.jar && \
     wget $SPARK_JAR_REPO_URL/spark-examples_2.12-$SPARK_VERSION.jar && \
     wget $SPARK_JAR_REPO_URL/pyspark.zip && \
     wget $SPARK_JAR_REPO_URL/spark-encrypt-io-0.2-SNAPSHOT.jar && \

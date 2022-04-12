@@ -1,4 +1,6 @@
 #!/bin/bash
+export PATH=$PATH:/opt/jdk1.8.0_192/jre/bin/
+
 OUTPUT=keys.yaml
 
 mkdir -p keys && cd keys

@@ -2,7 +2,7 @@ export HTTP_PROXY_HOST=your_http_proxy_host
 export HTTP_PROXY_PORT=your_http_proxy_port
 export HTTPS_PROXY_HOST=your_https_proxy_host
 export HTTPS_PROXY_PORT=your_https_proxy_port
-export JDK_URL=http://your-http-url-to-download-jdk
+export JDK_URL=https://download.oracle.com/otn/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.tar.gz
 
 cp -r ../../../kms-client ./
 
